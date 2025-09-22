@@ -14,10 +14,16 @@ buttons.forEach(function(btn) {
 
 function displayNum(input) {
     if (isNaN(input) && input != "=" && input != "clear") {
-        operator = input
-        inputBox.value = operator
-        return
+    if (operator && number1 !== "" && number2 !== "") {
+        let result = operate(operator, number1, number2);
+        inputBox.value = result;
+        number1 = result.toString();
+        number2 = "";
     }
+    operator = input; 
+    return;
+}
+
     if (input == "clear") {
         operator = ""
         number1 = ""
@@ -27,35 +33,16 @@ function displayNum(input) {
     }
 
     if (input == "=") {
-
-
-        if (operator == "+") {
-            inputBox.value = addNums(number1,number2)
-            number1 = ""
-            number2 = ""
-            operator = ""
-            return
-
-        } else if (operator == "-") {
-            inputBox.value = substractNums(number1,number2)
-            number1 = ""
-            number2 = ""
-            operator = ""
-            return 
-        } else if (operator == "×") {
-            inputBox.value = multipliyNums(number1,number2)
-            number1 = ""
-            number2 = ""
-            operator = ""
-            return
-        } else if (operator == "÷") {
-            inputBox.value = divideNums(number1, number2)
-            number1 = ""
-            number2 = ""
-            operator = ""
-            return
-        }
+    if (operator && number1 !== "" && number2 !== "") {
+        let result = operate(operator, number1, number2);
+        inputBox.value = result;
+        number1 = result.toString(); 
+        number2 = "";
+        operator = "";
     }
+    return;
+}
+
 
     
 
@@ -83,17 +70,16 @@ function operate(operator, num1,num2) {
 }
 
 
+function operate(operator, num1, num2) {
+    num1 = Number(num1);
+    num2 = Number(num2);
+    if (operator == "+") return num1 + num2;
+    if (operator == "-") return num1 - num2;
+    if (operator == "×") return num1 * num2;
+    if (operator == "÷") {
+        if (num2 == 0) {
+            return "you sneaky bastard 🙅‍♂️"
+        } else {return num1/num2}
+    }
+}
 
-
-function  addNums(num1, num2) {
-    return Number(num1) + Number(num2)
-}
-function substractNums(num1,num2) {
-    return Number(num1)-Number(num2)
-}
-function multipliyNums(num1,num2) {
-    return Number(num1)*Number(num2)
-}
-function divideNums(num1,num2) {
-    return Number(num1)/Number(num2)
-}
